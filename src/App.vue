@@ -70,17 +70,16 @@
         </b-container>
       </div>
     </div>
-    <br>
-    <br>
+
     <b-button
       variant="primary"
-      style="margin-left: 400px; width:27%"
+      style="margin-left: 80px; width:40%"
       size="lg"
-      @click="toStart()"
+      @click="this.firsttime === true ? toStart(): toReset()"
     >Run Test</b-button>
     <b-button
       variant="danger"
-      style="margin-left: 55px; width: 27%"
+      style="margin-left: 60px; width: 40%"
       size="lg"
       v-on:click="toStop()"
     >Stop Test</b-button>
@@ -92,6 +91,14 @@ import ProgressBar from "vue-simple-progress";
 import { setInterval } from "timers";
 import { clearInterval } from "timers";
 
+function initialState() {
+  return {
+    increasing_pct_Ecom: 0,
+    increasing_pct_Real: 0,
+    increasing_pct_PnA: 0,
+    increasing_pct_Vertex: 0
+  };
+}
 export default {
   name: "app",
   data() {
@@ -110,14 +117,23 @@ export default {
       increasing_pct_PnA: 0,
       increasing_pct_Vertex: 0,
       vertex_cond: true,
-      completedPerc: "passed",
-      firsttime: true
+      completedPerc: "PASSED",
+      firsttime: true,
+      failPerc: "FAIL",
+      random_boolean: true
     };
   },
   components: {
     ProgressBar
   },
   methods: {
+    passedFail() {
+      this.random_boolean = Math.random() >= 0.5;
+    },
+    toReset() {
+      Object.assign(this.$data, initialState());
+      this.toStart();
+    },
     toStart(event) {
       if (this.selected === undefined || this.selected.length === 0) {
         alert("please select an option");
@@ -166,11 +182,12 @@ export default {
         }, 2000);
       }
 
-      if (this.firsttime) {
-        return (this.firsttime = false);
-      } else {
-        location.reload();
-      }
+      return this.firsttime === false;
+      // if (this.firsttime) {
+      //   return (this.firsttime = false);
+      // } else {
+      //   location.reload();
+      // }
     },
     toStop(event) {
       clearInterval(this.timerA);
