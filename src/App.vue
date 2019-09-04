@@ -38,7 +38,8 @@
                   size="tiny"
                   text-position="inside"
                   :val="increasing_pct_Ecom"
-                  :text="increasing_pct_Ecom == 100 ? completedPerc:increasing_pct_Ecom + '%' "
+                  :text="increasing_pct_Ecom == 100 ? completedPerc: increasing_pct_Ecom + '%' "
+
                 />
 
                 <progress-bar
@@ -46,7 +47,10 @@
                   size="tiny"
                   text-position="inside"
                   :val="increasing_pct_Real"
-                  :text="increasing_pct_Real == 100 ? completedPerc:increasing_pct_Real+ '%' "
+
+                  :text="increasing_pct_Real == 100 ? completedPerc : increasing_pct_Real+ '%' "
+
+
                 />
 
                 <progress-bar
@@ -54,7 +58,11 @@
                   size="tiny"
                   text-position="inside"
                   :val="increasing_pct_PnA"
-                  :text="increasing_pct_PnA == 100 ? completedPerc:increasing_pct_PnA+ '%' "
+
+                  :text="increasing_pct_PnA == 100 ? completedPerc : increasing_pct_PnA+ '%' "
+
+
+
                 />
 
                 <progress-bar
@@ -62,7 +70,11 @@
                   style="width: 95%"
                   text-position="inside"
                   :val="increasing_pct_Vertex"
-                  :text="increasing_pct_Vertex == 100 ? completedPerc:increasing_pct_Vertex+ '%' "
+
+                  :text="increasing_pct_Vertex == 100 ? completedPerc : increasing_pct_Vertex+ '%' "
+
+
+
                 />
               </div>
             </b-col>
@@ -75,7 +87,11 @@
       variant="primary"
       style="margin-left: 80px; width:40%"
       size="lg"
-      @click="this.firsttime === true ? toStart(): toReset()"
+
+      @click="toStart()"
+
+
+
     >Run Test</b-button>
     <b-button
       variant="danger"
@@ -90,6 +106,9 @@
 import ProgressBar from "vue-simple-progress";
 import { setInterval } from "timers";
 import { clearInterval } from "timers";
+
+import BootstrapVue from "bootstrap-vue";
+
 
 function initialState() {
   return {
@@ -118,9 +137,16 @@ export default {
       increasing_pct_Vertex: 0,
       vertex_cond: true,
       completedPerc: "PASSED",
+      firstRun: true,
+      failPerc: "FAIL",
+      random_boolean: true,
+      funtion(){
+        return initialState();
+      },
       firsttime: true,
       failPerc: "FAIL",
       random_boolean: true
+
     };
   },
   components: {
@@ -130,11 +156,10 @@ export default {
     passedFail() {
       this.random_boolean = Math.random() >= 0.5;
     },
-    toReset() {
-      Object.assign(this.$data, initialState());
-      this.toStart();
-    },
+
+
     toStart(event) {
+
       if (this.selected === undefined || this.selected.length === 0) {
         alert("please select an option");
       }
@@ -182,9 +207,16 @@ export default {
         }, 2000);
       }
 
+  Object.assign(this.$data, initialState());
+
+      // if (this.firstRun) {
+      //   return (this.firstRun = false);
+
+
       return this.firsttime === false;
       // if (this.firsttime) {
       //   return (this.firsttime = false);
+
       // } else {
       //   location.reload();
       // }
@@ -194,6 +226,9 @@ export default {
       clearInterval(this.timerB);
       clearInterval(this.timerC);
       clearInterval(this.timerD);
+
+
+
     },
     toggleAll(checked) {
       this.selected = checked ? this.Automation.slice() : [];
