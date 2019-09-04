@@ -1,5 +1,11 @@
 # testapp
 
+
+## Deploy site
+
+Please use this link to access the UI without install Node and Vue
+
+
 ## Project setup
 ```
 npm install
