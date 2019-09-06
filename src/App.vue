@@ -17,25 +17,31 @@
                     @change="toggleAll"
                   >{{ allSelected ? 'Un-select All' : 'Select All' }}</b-form-checkbox>
                 </template>
-
+                <br/>
                 <b-form-checkbox-group
                   id="flavors"
-                  size="lg"
                   v-model="selected"
-                  :options="Automation"
                   name="flavors"
                   class="ml-5"
                   aria-label="Individual flavours"
                   stacked
-                ></b-form-checkbox-group>
+                >
+                  <b-form-checkbox
+                    v-for="Automations in Automation"
+                    v-bind:key="Automations.id"
+                    :value="Automations"
+                    class="mb-5"
+                  >{{ Automations }}</b-form-checkbox>
+                </b-form-checkbox-group>
+
               </b-form-group>
             </b-col>
 
             <b-col>
-              <div>
+              <div style="margin-top: 85px">
                 <progress-bar
-                  style="margin-top: 58px; margin-bottom: 10px; width: 95%"
-                  size="tiny"
+                  style="margin-bottom: 35px; width: 95%"
+                  size="large"
                   text-position="inside"
                   :val="increasing_pct_Ecom"
                   :text="increasing_pct_Ecom == 100 ? completedPerc: increasing_pct_Ecom + '%' "
@@ -43,8 +49,8 @@
                 />
 
                 <progress-bar
-                  style="margin-bottom: 10px; width: 95%"
-                  size="tiny"
+                  style="margin-bottom: 35px; width: 95%"
+                  size="large"
                   text-position="inside"
                   :val="increasing_pct_Real"
 
@@ -54,8 +60,8 @@
                 />
 
                 <progress-bar
-                  style="margin-bottom: 10px; width: 95%"
-                  size="tiny"
+                  style="margin-bottom: 45px; width: 95%"
+                  size="large"
                   text-position="inside"
                   :val="increasing_pct_PnA"
 
@@ -66,7 +72,7 @@
                 />
 
                 <progress-bar
-                  size="tiny"
+                  size="large"
                   style="width: 95%"
                   text-position="inside"
                   :val="increasing_pct_Vertex"
@@ -83,14 +89,15 @@
       </div>
     </div>
 
+<div>
+
+</div>
+
     <b-button
       variant="primary"
       style="margin-left: 80px; width:40%"
       size="lg"
-
-      @click="toStart()"
-
-
+      @click="boxOne===true?toStart():showModal()"
 
     >Run Test</b-button>
     <b-button
@@ -115,7 +122,8 @@ function initialState() {
     increasing_pct_Ecom: 0,
     increasing_pct_Real: 0,
     increasing_pct_PnA: 0,
-    increasing_pct_Vertex: 0
+    increasing_pct_Vertex: 0,
+    boxOne: ''
   };
 }
 export default {
@@ -145,81 +153,103 @@ export default {
       },
       firsttime: true,
       failPerc: "FAIL",
-      random_boolean: true
+      random_boolean: true,
+      boxOne:''
 
     };
   },
   components: {
-    ProgressBar
+    ProgressBar,
+    BootstrapVue
   },
   methods: {
     passedFail() {
       this.random_boolean = Math.random() >= 0.5;
     },
-
-
+showModal(){
+  this.boxOne = ''
+    this.$bvModal.msgBoxConfirm('WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree, then click "Run Test" again to run the test')
+      .then(value => {
+        this.boxOne = value
+      })
+      .catch(err => {
+        // An error occurred
+      })
+      if(this.boxOne){
+        this.toStart()
+      }
+},
     toStart(event) {
 
-      if (this.selected === undefined || this.selected.length === 0) {
-        alert("please select an option");
+
+
+  if (this.selected === undefined || this.selected.length === 0) {
+    alert("please select an option");
+    return 0;
+  }
+
+  var vertexNum = this.selected.includes("Vertex");
+  if (vertexNum === true) {
+    this.timerD = setInterval(() => {
+      this.increasing_pct_Vertex = Math.min(
+        this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
+        100
+      );
+      if (this.counter) {
+        clearInterval(this.timerB);
       }
+    }, 2000);
+  }
 
-      var vertexNum = this.selected.includes("Vertex");
-      if (vertexNum === true) {
-        this.timerD = setInterval(() => {
-          this.increasing_pct_Vertex = Math.min(
-            this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-          if (this.counter) {
-            clearInterval(this.timerB);
-          }
-        }, 2000);
-      }
+  var EcomNum = this.selected.includes("ECommerce SRT");
+  if (EcomNum === true) {
+    this.timerC = setInterval(() => {
+      this.increasing_pct_Ecom = Math.min(
+        this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
+        100
+      );
+    }, 2000);
+  }
 
-      var EcomNum = this.selected.includes("ECommerce SRT");
-      if (EcomNum === true) {
-        this.timerC = setInterval(() => {
-          this.increasing_pct_Ecom = Math.min(
-            this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
-      }
+  var RealNum = this.selected.includes("Real Time Pricing (RTP)");
+  if (RealNum === true) {
+    this.timerB = setInterval(() => {
+      this.increasing_pct_Real = Math.min(
+        this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
+        100
+      );
+    }, 2000);
+  }
 
-      var RealNum = this.selected.includes("Real Time Pricing (RTP)");
-      if (RealNum === true) {
-        this.timerB = setInterval(() => {
-          this.increasing_pct_Real = Math.min(
-            this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
-      }
+  var PNAnum = this.selected.includes("Pricing and Availability (PnA)");
+  if (PNAnum === true) {
+    this.timerA = setInterval(() => {
+      this.increasing_pct_PnA = Math.min(
+        this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
+        100
+      );
+    }, 2000);
+  }
 
-      var PNAnum = this.selected.includes("Pricing and Availability (PnA)");
-      if (PNAnum === true) {
-        this.timerA = setInterval(() => {
-          this.increasing_pct_PnA = Math.min(
-            this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
-      }
+Object.assign(this.$data, initialState());
 
-  Object.assign(this.$data, initialState());
-
-      // if (this.firstRun) {
-      //   return (this.firstRun = false);
+  // if (this.firstRun) {
+  //   return (this.firstRun = false);
 
 
-      return this.firsttime === false;
-      // if (this.firsttime) {
-      //   return (this.firsttime = false);
 
-      // } else {
-      //   location.reload();
-      // }
+  // if (this.firsttime) {
+  //   return (this.firsttime = false);
+
+  // } else {
+  //   location.reload();
+  // }
+
+
+
+
+
+
     },
     toStop(event) {
       clearInterval(this.timerA);
