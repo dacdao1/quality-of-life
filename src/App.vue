@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <h1 style="text-align: center; margin-top:10px; margin-bottom: 80px">Quality of Life</h1>
+  <div id="app" class="flex-container">
+    <h1 style="text-align: center; margin-top:10px; margin-bottom: 30px">Quality of Life</h1>
     <div>
       <div>
         <b-container class="bv-example-row">
@@ -8,7 +8,7 @@
             <b-col>
               <b-form-group>
                 <template slot="label">
-                  <br>
+
                   <b-form-checkbox
                     style
                     v-model="allSelected"
@@ -32,12 +32,14 @@
                     :value="Automations"
                     class="mb-5"
                   >{{ Automations }}</b-form-checkbox>
+                    <label style="margin-left:-30px" class="mt-1"><input type="checkbox" v-model="checked"/>I Agree </label>
                 </b-form-checkbox-group>
               </b-form-group>
+
             </b-col>
 
             <b-col>
-              <div style="margin-top: 85px">
+              <div style="margin-top: 55px">
                 <progress-bar
                   style="margin-bottom: 35px; width: 95%"
                   size="large"
@@ -74,13 +76,13 @@
           </b-row>
         </b-container>
       </div>
-      <label for="agree"><input id="agree" type="checkbox" value="agree" v-model="checked"/>I Agree </label>
+
     </div>
 
     <b-button
       v-if="this.selected === undefined || this.selected.length === 0"
       variant="primary"
-      style="margin-left: 80px; width:40%"
+      style="margin-left: 90px; width:40%"
       size="lg"
       @click="nonSelect()"
       :disabled="!checked"
@@ -258,4 +260,5 @@ export default {
 </script>
 
 <style >
+
 </style>
