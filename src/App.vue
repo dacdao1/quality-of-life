@@ -163,14 +163,18 @@ export default {
       this.boxOne = "";
       this.$bvModal
         .msgBoxConfirm(
-          'WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree, then click "Run Test" again to run the test'
+          'WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree.'
         )
         .then(value => {
           this.boxOne = value;
+          if(this.boxOne===true){
+            this.toStart()
+          }
         })
         .catch(err => {
           // An error occurred
         });
+
     },
     nonSelect(event) {
       if (this.selected === undefined || this.selected.length === 0) {
