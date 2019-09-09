@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 style="text-align: center; margin-top:150px; margin-bottom: 80px">Quality of Life</h1>
+    <h1 style="text-align: center; margin-top:10px; margin-bottom: 80px">Quality of Life</h1>
     <div>
       <div>
         <b-container class="bv-example-row">
@@ -17,7 +17,7 @@
                     @change="toggleAll"
                   >{{ allSelected ? 'Un-select All' : 'Select All' }}</b-form-checkbox>
                 </template>
-                <br/>
+                <br>
                 <b-form-checkbox-group
                   id="flavors"
                   v-model="selected"
@@ -33,7 +33,6 @@
                     class="mb-5"
                   >{{ Automations }}</b-form-checkbox>
                 </b-form-checkbox-group>
-
               </b-form-group>
             </b-col>
 
@@ -45,7 +44,6 @@
                   text-position="inside"
                   :val="increasing_pct_Ecom"
                   :text="increasing_pct_Ecom == 100 ? completedPerc: increasing_pct_Ecom + '%' "
-
                 />
 
                 <progress-bar
@@ -53,10 +51,7 @@
                   size="large"
                   text-position="inside"
                   :val="increasing_pct_Real"
-
                   :text="increasing_pct_Real == 100 ? completedPerc : increasing_pct_Real+ '%' "
-
-
                 />
 
                 <progress-bar
@@ -64,11 +59,7 @@
                   size="large"
                   text-position="inside"
                   :val="increasing_pct_PnA"
-
                   :text="increasing_pct_PnA == 100 ? completedPerc : increasing_pct_PnA+ '%' "
-
-
-
                 />
 
                 <progress-bar
@@ -76,30 +67,34 @@
                   style="width: 95%"
                   text-position="inside"
                   :val="increasing_pct_Vertex"
-
                   :text="increasing_pct_Vertex == 100 ? completedPerc : increasing_pct_Vertex+ '%' "
-
-
-
                 />
               </div>
             </b-col>
           </b-row>
         </b-container>
       </div>
+      <label for="agree"><input id="agree" type="checkbox" value="agree" v-model="checked"/>I Agree </label>
     </div>
 
-<div>
-
-</div>
-
     <b-button
+      v-if="this.selected === undefined || this.selected.length === 0"
       variant="primary"
       style="margin-left: 80px; width:40%"
       size="lg"
-      @click="boxOne===true?toStart():showModal()"
-
+      @click="nonSelect()"
+      :disabled="!checked"
     >Run Test</b-button>
+
+    <b-button
+      v-else
+      variant="primary"
+      style="margin-left: 80px; width:40%"
+      size="lg"
+      :disabled="!checked"
+      @click="boxOne===true?toStart():showModal()"
+    >Run Test</b-button>
+
     <b-button
       variant="danger"
       style="margin-left: 60px; width: 40%"
@@ -116,14 +111,13 @@ import { clearInterval } from "timers";
 
 import BootstrapVue from "bootstrap-vue";
 
-
 function initialState() {
   return {
     increasing_pct_Ecom: 0,
     increasing_pct_Real: 0,
     increasing_pct_PnA: 0,
     increasing_pct_Vertex: 0,
-    boxOne: ''
+    boxOne: ""
   };
 }
 export default {
@@ -148,14 +142,11 @@ export default {
       firstRun: true,
       failPerc: "FAIL",
       random_boolean: true,
-      funtion(){
+      funtion() {
         return initialState();
       },
-      firsttime: true,
-      failPerc: "FAIL",
-      random_boolean: true,
-      boxOne:''
-
+      boxOne: "",
+      checked:false
     };
   },
   components: {
@@ -166,99 +157,87 @@ export default {
     passedFail() {
       this.random_boolean = Math.random() >= 0.5;
     },
-showModal(){
-  this.boxOne = ''
-    this.$bvModal.msgBoxConfirm('WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree, then click "Run Test" again to run the test')
-      .then(value => {
-        this.boxOne = value
-      })
-      .catch(err => {
-        // An error occurred
-      })
-      if(this.boxOne){
-        this.toStart()
+    showModal() {
+      this.boxOne = "";
+      this.$bvModal
+        .msgBoxConfirm(
+          'WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree, then click "Run Test" again to run the test'
+        )
+        .then(value => {
+          this.boxOne = value;
+        })
+        .catch(err => {
+          // An error occurred
+        });
+    },
+    nonSelect(event) {
+      if (this.selected === undefined || this.selected.length === 0) {
+        alert("please select an option");
+        return 0;
       }
-},
+    },
     toStart(event) {
-
-
-
-  if (this.selected === undefined || this.selected.length === 0) {
-    alert("please select an option");
-    return 0;
-  }
-
-  var vertexNum = this.selected.includes("Vertex");
-  if (vertexNum === true) {
-    this.timerD = setInterval(() => {
-      this.increasing_pct_Vertex = Math.min(
-        this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
-        100
-      );
-      if (this.counter) {
-        clearInterval(this.timerB);
+      var vertexNum = this.selected.includes("Vertex");
+      if (vertexNum === true) {
+        this.timerD = setInterval(() => {
+          this.increasing_pct_Vertex = Math.min(
+            this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+          if (this.counter) {
+            clearInterval(this.timerB);
+          }
+        }, 2000);
       }
-    }, 2000);
-  }
 
-  var EcomNum = this.selected.includes("ECommerce SRT");
-  if (EcomNum === true) {
-    this.timerC = setInterval(() => {
-      this.increasing_pct_Ecom = Math.min(
-        this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
-        100
-      );
-    }, 2000);
-  }
+      var EcomNum = this.selected.includes("ECommerce SRT");
+      if (EcomNum === true) {
+        this.timerC = setInterval(() => {
+          this.increasing_pct_Ecom = Math.min(
+            this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+      }
 
-  var RealNum = this.selected.includes("Real Time Pricing (RTP)");
-  if (RealNum === true) {
-    this.timerB = setInterval(() => {
-      this.increasing_pct_Real = Math.min(
-        this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
-        100
-      );
-    }, 2000);
-  }
+      var RealNum = this.selected.includes("Real Time Pricing (RTP)");
+      if (RealNum === true) {
+        this.timerB = setInterval(() => {
+          this.increasing_pct_Real = Math.min(
+            this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+      }
 
-  var PNAnum = this.selected.includes("Pricing and Availability (PnA)");
-  if (PNAnum === true) {
-    this.timerA = setInterval(() => {
-      this.increasing_pct_PnA = Math.min(
-        this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
-        100
-      );
-    }, 2000);
-  }
+      var PNAnum = this.selected.includes("Pricing and Availability (PnA)");
+      if (PNAnum === true) {
+        this.timerA = setInterval(() => {
+          this.increasing_pct_PnA = Math.min(
+            this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+      }
 
-Object.assign(this.$data, initialState());
+      Object.assign(this.$data, initialState());
 
-  // if (this.firstRun) {
-  //   return (this.firstRun = false);
+      // if (this.firstRun) {
+      //   return (this.firstRun = false);
 
+      // if (this.firsttime) {
+      //   return (this.firsttime = false);
 
-
-  // if (this.firsttime) {
-  //   return (this.firsttime = false);
-
-  // } else {
-  //   location.reload();
-  // }
-
-
-
-
-
-
+      // } else {
+      //   location.reload();
+      // }
     },
     toStop(event) {
       clearInterval(this.timerA);
       clearInterval(this.timerB);
       clearInterval(this.timerC);
       clearInterval(this.timerD);
-
-
-
+      Object.assign(this.$data, initialState());
     },
     toggleAll(checked) {
       this.selected = checked ? this.Automation.slice() : [];
