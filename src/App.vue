@@ -32,7 +32,7 @@
                     :value="Automations"
                     class="mb-5"
                   >{{ Automations }}</b-form-checkbox>
-                    <label style="margin-left:-30px" class="mt-1"><input type="checkbox" v-model="checked"/>I Agree </label>
+                    <label style="margin-left:-30px" class="mt-1"><input type="checkbox" v-model="checked"/>I agree that I have read the following warning </label>
                 </b-form-checkbox-group>
               </b-form-group>
 
@@ -163,7 +163,7 @@ export default {
       this.boxOne = "";
       this.$bvModal
         .msgBoxConfirm(
-          'WARNING BOX. AGREEMENT DISCLAMER CHECKBOX. Click "OK" if you agree.'
+          'WARNING Message: WARNING: Please be advised that by running this, you are effectively placing an order in Production.'
         )
         .then(value => {
           this.boxOne = value;
