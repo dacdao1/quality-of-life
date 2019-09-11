@@ -45,7 +45,9 @@
                   size="large"
                   text-position="inside"
                   :val="increasing_pct_Ecom"
-                  :text="increasing_pct_Ecom == 100 ? completedPerc: increasing_pct_Ecom + '%' "
+                  :text="increasing_pct_Ecom == 100 ? completedEcom: increasing_pct_Ecom + '%' "
+                  :bar-color="increasing_pct_Ecom == 100 ? ecomColors : normalColors "
+
                 />
 
                 <progress-bar
@@ -53,7 +55,8 @@
                   size="large"
                   text-position="inside"
                   :val="increasing_pct_Real"
-                  :text="increasing_pct_Real == 100 ? completedPerc : increasing_pct_Real+ '%' "
+                  :text="increasing_pct_Real == 100 ? completedReal : increasing_pct_Real+ '%' "
+                  :bar-color="increasing_pct_Real == 100 ? realColors : normalColors "
                 />
 
                 <progress-bar
@@ -61,7 +64,8 @@
                   size="large"
                   text-position="inside"
                   :val="increasing_pct_PnA"
-                  :text="increasing_pct_PnA == 100 ? completedPerc : increasing_pct_PnA+ '%' "
+                  :text="increasing_pct_PnA == 100 ? completedPnA : increasing_pct_PnA+ '%' "
+                  :bar-color="increasing_pct_PnA == 100 ? pnaColors : normalColors "
                 />
 
                 <progress-bar
@@ -69,7 +73,8 @@
                   style="width: 95%"
                   text-position="inside"
                   :val="increasing_pct_Vertex"
-                  :text="increasing_pct_Vertex == 100 ? completedPerc : increasing_pct_Vertex+ '%' "
+                  :text="increasing_pct_Vertex == 100 ? completedVert : increasing_pct_Vertex+ '%' "
+                  :bar-color="increasing_pct_Vertex == 100 ? vertColors : normalColors "
                 />
               </div>
             </b-col>
@@ -107,12 +112,11 @@
 </template>
 
 <script>
+// increasing_pct_Ecom == 100 ? barColors : normalColors
 import ProgressBar from "vue-simple-progress";
 import { setInterval } from "timers";
 import { clearInterval } from "timers";
-
 import BootstrapVue from "bootstrap-vue";
-
 function initialState() {
   return {
     increasing_pct_Ecom: 0,
@@ -134,21 +138,22 @@ export default {
       ],
       selected: [],
       allSelected: false,
-      random_pct: 0,
       increasing_pct_Ecom: 0,
       increasing_pct_Real: 0,
       increasing_pct_PnA: 0,
       increasing_pct_Vertex: 0,
-      vertex_cond: true,
-      completedPerc: "PASSED",
+      completedVert: " ",
+      completedEcom: " ",
+      completedReal: ' ',
+      completedPnA: ' ',
       firstRun: true,
-      failPerc: "FAIL",
-      random_boolean: true,
-      funtion() {
-        return initialState();
-      },
       boxOne: "",
-      checked:false
+      checked:false,
+      vertColors: ' ',
+      ecomColors: ' ',
+      realColors: ' ',
+      pnaColors: ' ',
+      normalColors: "#2196f3"
     };
   },
   components: {
@@ -174,7 +179,6 @@ export default {
         .catch(err => {
           // An error occurred
         });
-
     },
     nonSelect(event) {
       if (this.selected === undefined || this.selected.length === 0) {
@@ -183,57 +187,102 @@ export default {
       }
     },
     toStart(event) {
+
+
       var vertexNum = this.selected.includes("Vertex");
-      if (vertexNum === true) {
+      var randomVert = Boolean(Math.round(Math.random()));
+      if (vertexNum === true && randomVert ===true) {
         this.timerD = setInterval(() => {
           this.increasing_pct_Vertex = Math.min(
             this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
             100
-          );
-          if (this.counter) {
-            clearInterval(this.timerB);
-          }
-        }, 2000);
+          );}, 2000);
+          this.completedVert= "PASSED";
+          this.vertColors = "#008000"
+      } else{
+        this.timerD = setInterval(() => {
+          this.increasing_pct_Vertex = Math.min(
+            this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
+            100
+          );}, 2000);
+        this.completedVert = "FAIL";
+        this.vertColors = "#FF0000"
       }
 
+
+
       var EcomNum = this.selected.includes("ECommerce SRT");
-      if (EcomNum === true) {
+      var randomEcom = Boolean(Math.round(Math.random()));
+      if (EcomNum === true && randomEcom === true) {
         this.timerC = setInterval(() => {
           this.increasing_pct_Ecom = Math.min(
             this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
             100
           );
         }, 2000);
+        this.completedEcom = "PASSED"
+        this.ecomColors = "#008000"
+      } else{
+        this.timerC = setInterval(() => {
+          this.increasing_pct_Ecom = Math.min(
+            this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+        this.completedEcom = "FAIL"
+        this.ecomColors = "#FF0000"
       }
 
       var RealNum = this.selected.includes("Real Time Pricing (RTP)");
-      if (RealNum === true) {
+      var randomReal = Boolean(Math.round(Math.random()));
+      if (RealNum === true && randomReal === true) {
         this.timerB = setInterval(() => {
           this.increasing_pct_Real = Math.min(
             this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
             100
           );
         }, 2000);
+        this.completedReal = "PASSED";
+        this.realColors = "#008000"
+      } else {
+        this.timerB = setInterval(() => {
+          this.increasing_pct_Real = Math.min(
+            this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+        this.completedReal = "FAIL"
+        this.realColors = "#FF0000"
       }
 
+
       var PNAnum = this.selected.includes("Pricing and Availability (PnA)");
-      if (PNAnum === true) {
+      var randomPnA = Boolean(Math.round(Math.random()));
+      if (PNAnum === true && randomPnA === true) {
         this.timerA = setInterval(() => {
           this.increasing_pct_PnA = Math.min(
             this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
             100
           );
         }, 2000);
+        this.completedPnA = "PASSED";
+              this.pnaColors = "#008000"
+      }else{
+        this.timerA = setInterval(() => {
+          this.increasing_pct_PnA = Math.min(
+            this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+        this.completedPnA = "FAIL"
+              this.pnaColors = "#FF0000"
       }
 
       Object.assign(this.$data, initialState());
-
       // if (this.firstRun) {
       //   return (this.firstRun = false);
-
       // if (this.firsttime) {
       //   return (this.firsttime = false);
-
       // } else {
       //   location.reload();
       // }
@@ -264,5 +313,4 @@ export default {
 </script>
 
 <style >
-
 </style>
