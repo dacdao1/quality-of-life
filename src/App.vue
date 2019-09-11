@@ -200,11 +200,7 @@ export default {
           this.completedVert= "PASSED";
           this.vertColors = "#008000"
       } else{
-        this.timerD = setInterval(() => {
-          this.increasing_pct_Vertex = Math.min(
-            this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
-            100
-          );}, 2000);
+       
         this.completedVert = "FAIL";
         this.vertColors = "#FF0000"
       }
@@ -223,12 +219,7 @@ export default {
         this.completedEcom = "PASSED"
         this.ecomColors = "#008000"
       } else{
-        this.timerC = setInterval(() => {
-          this.increasing_pct_Ecom = Math.min(
-            this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
+       
         this.completedEcom = "FAIL"
         this.ecomColors = "#FF0000"
       }
@@ -245,12 +236,7 @@ export default {
         this.completedReal = "PASSED";
         this.realColors = "#008000"
       } else {
-        this.timerB = setInterval(() => {
-          this.increasing_pct_Real = Math.min(
-            this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
+       
         this.completedReal = "FAIL"
         this.realColors = "#FF0000"
       }
@@ -268,12 +254,7 @@ export default {
         this.completedPnA = "PASSED";
               this.pnaColors = "#008000"
       }else{
-        this.timerA = setInterval(() => {
-          this.increasing_pct_PnA = Math.min(
-            this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
-            100
-          );
-        }, 2000);
+        
         this.completedPnA = "FAIL"
               this.pnaColors = "#FF0000"
       }
