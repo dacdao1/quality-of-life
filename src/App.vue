@@ -123,7 +123,7 @@ function initialState() {
     increasing_pct_Real: 0,
     increasing_pct_PnA: 0,
     increasing_pct_Vertex: 0,
-    boxOne: ""
+    boxOne: "",
   };
 }
 export default {
@@ -153,7 +153,9 @@ export default {
       ecomColors: ' ',
       realColors: ' ',
       pnaColors: ' ',
-      normalColors: "#2196f3"
+      normalColors: "#2196f3", funtion(){
+        return initialState();
+      }
     };
   },
   components: {
@@ -188,7 +190,6 @@ export default {
     },
     toStart(event) {
 
-
       var vertexNum = this.selected.includes("Vertex");
       var randomVert = Boolean(Math.round(Math.random()));
       if (vertexNum === true && randomVert ===true) {
@@ -199,8 +200,14 @@ export default {
           );}, 2000);
           this.completedVert= "PASSED";
           this.vertColors = "#008000"
-      } else{
-       this.increasing_pct_Vertex = 100;
+      } else if (vertexNum === false){
+      clearInterval(this.timerD)
+      } else {
+        this.timerD = setInterval(() => {
+          this.increasing_pct_Vertex = Math.min(
+            this.increasing_pct_Vertex + Math.floor(Math.random() * 50 + 1),
+            100
+          );}, 2000);
         this.completedVert = "FAIL";
         this.vertColors = "#FF0000"
       }
@@ -216,12 +223,20 @@ export default {
             100
           );
         }, 2000);
-        this.completedEcom = "PASSED";
-        this.ecomColors = "#008000";
-      } else{
-       this.increasing_pct_Ecom = 100;
-        this.completedEcom = "FAIL";
-        this.ecomColors = "#FF0000";
+        this.completedEcom = "PASSED"
+        this.ecomColors = "#008000"
+      } else if (EcomNum === false){
+        clearInterval(this.timerC)
+      }else{
+        this.timerC = setInterval(() => {
+          this.increasing_pct_Ecom = Math.min(
+            this.increasing_pct_Ecom + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+        this.increasing_pct_Ecom = 100
+        this.completedEcom = "FAIL"
+        this.ecomColors = "#FF0000"
       }
 
       var RealNum = this.selected.includes("Real Time Pricing (RTP)");
@@ -234,11 +249,20 @@ export default {
           );
         }, 2000);
         this.completedReal = "PASSED";
-        this.realColors = "#008000";
-      } else {
-       this.increasing_pct_Real = 100;
-        this.completedReal = "FAIL";
-        this.realColors = "#FF0000";
+        this.realColors = "#008000"
+      } else if(RealNum === false){
+        clearInterval(this.timerB)
+      }
+      else {
+        this.timerB = setInterval(() => {
+          this.increasing_pct_Real = Math.min(
+            this.increasing_pct_Real + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
+          this.increasing_pct_Real = 100;
+        this.completedReal = "FAIL"
+        this.realColors = "#FF0000"
       }
 
 
@@ -252,11 +276,19 @@ export default {
           );
         }, 2000);
         this.completedPnA = "PASSED";
-              this.pnaColors = "#008000";
+              this.pnaColors = "#008000"
+      }else if(PNAnum === false){
+        clearInterval(this.timerA)
       }else{
+        this.timerA = setInterval(() => {
+          this.increasing_pct_PnA = Math.min(
+            this.increasing_pct_PnA + Math.floor(Math.random() * 50 + 1),
+            100
+          );
+        }, 2000);
         this.increasing_pct_PnA = 100;
-        this.completedPnA = "FAIL";
-              this.pnaColors = "#FF0000";
+        this.completedPnA = "FAIL"
+              this.pnaColors = "#FF0000"
       }
 
       Object.assign(this.$data, initialState());
