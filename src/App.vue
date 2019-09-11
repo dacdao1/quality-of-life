@@ -200,7 +200,7 @@ export default {
           this.completedVert= "PASSED";
           this.vertColors = "#008000"
       } else{
-       
+       this.increasing_pct_Vertex = 100;
         this.completedVert = "FAIL";
         this.vertColors = "#FF0000"
       }
@@ -216,12 +216,12 @@ export default {
             100
           );
         }, 2000);
-        this.completedEcom = "PASSED"
-        this.ecomColors = "#008000"
+        this.completedEcom = "PASSED";
+        this.ecomColors = "#008000";
       } else{
-       
-        this.completedEcom = "FAIL"
-        this.ecomColors = "#FF0000"
+       this.increasing_pct_Ecom = 100;
+        this.completedEcom = "FAIL";
+        this.ecomColors = "#FF0000";
       }
 
       var RealNum = this.selected.includes("Real Time Pricing (RTP)");
@@ -234,11 +234,11 @@ export default {
           );
         }, 2000);
         this.completedReal = "PASSED";
-        this.realColors = "#008000"
+        this.realColors = "#008000";
       } else {
-       
-        this.completedReal = "FAIL"
-        this.realColors = "#FF0000"
+       this.increasing_pct_Real = 100;
+        this.completedReal = "FAIL";
+        this.realColors = "#FF0000";
       }
 
 
@@ -252,11 +252,11 @@ export default {
           );
         }, 2000);
         this.completedPnA = "PASSED";
-              this.pnaColors = "#008000"
+              this.pnaColors = "#008000";
       }else{
-        
-        this.completedPnA = "FAIL"
-              this.pnaColors = "#FF0000"
+        this.increasing_pct_PnA = 100;
+        this.completedPnA = "FAIL";
+              this.pnaColors = "#FF0000";
       }
 
       Object.assign(this.$data, initialState());
