@@ -23,16 +23,16 @@
           <b-col>
             <div style="margin-top: 55px">
               <progress-bar style="margin-bottom: 35px; width: 95%" size="large" text-position="inside" :val="increasing_pct_Ecom" :text="increasing_pct_Ecom == 100 ? completedEcom: increasing_pct_Ecom + '%' "
-                :bar-color="increasing_pct_Ecom == 100 ? ecomColors : normalColors " />
+                :bar-color="increasing_pct_Ecom == 100 ? ecomColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
 
               <progress-bar style="margin-bottom: 35px; width: 95%" size="large" text-position="inside" :val="increasing_pct_Real" :text="increasing_pct_Real == 100 ? completedReal : increasing_pct_Real+ '%' "
-                :bar-color="increasing_pct_Real == 100 ? realColors : normalColors " />
+                :bar-color="increasing_pct_Real == 100 ? realColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
 
               <progress-bar style="margin-bottom: 45px; width: 95%" size="large" text-position="inside" :val="increasing_pct_PnA" :text="increasing_pct_PnA == 100 ? completedPnA : increasing_pct_PnA+ '%' "
-                :bar-color="increasing_pct_PnA == 100 ? pnaColors : normalColors " />
+                :bar-color="increasing_pct_PnA == 100 ? pnaColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
 
               <progress-bar size="large" style="width: 95%" text-position="inside" :val="increasing_pct_Vertex" :text="increasing_pct_Vertex == 100 ? completedVert : increasing_pct_Vertex+ '%' "
-                :bar-color="increasing_pct_Vertex == 100 ? vertColors : normalColors " />
+                :bar-color="increasing_pct_Vertex == 100 ? vertColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
             </div>
           </b-col>
         </b-row>
@@ -102,7 +102,12 @@ export default {
       ecomColors: ' ',
       realColors: ' ',
       pnaColors: ' ',
-      notRan: true,
+      notRanVert: true,
+      notRanPnA: true,
+      notRanReal: true,
+      notRanEcom: true,
+      normalText: "#222",
+      finishText: "#FFFAF0",
       normalColors: "#2196f3",
       funtion() {
         return initialState();
@@ -142,7 +147,7 @@ export default {
     toStart(event) {
 
       // this is the function for Vertex
-      if (this.notRan) {
+      if (this.notRanVert) {
         var vertexNum = this.selected.includes("Vertex");
         var randomVert = Boolean(Math.round(Math.random()));
         if (vertexNum === true && randomVert === true) {
