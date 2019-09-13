@@ -23,16 +23,16 @@
           <b-col>
             <div style="margin-top: 55px">
               <progress-bar style="margin-bottom: 35px; width: 95%" size="large" text-position="inside" :val="increasing_pct_Ecom" :text="increasing_pct_Ecom == 100 ? completedEcom: increasing_pct_Ecom + '%' "
-                :bar-color="increasing_pct_Ecom == 100 ? ecomColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
+                :bar-color="increasing_pct_Ecom == 100 ? ecomColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText" />
 
               <progress-bar style="margin-bottom: 35px; width: 95%" size="large" text-position="inside" :val="increasing_pct_Real" :text="increasing_pct_Real == 100 ? completedReal : increasing_pct_Real+ '%' "
-                :bar-color="increasing_pct_Real == 100 ? realColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
+                :bar-color="increasing_pct_Real == 100 ? realColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText" />
 
               <progress-bar style="margin-bottom: 45px; width: 95%" size="large" text-position="inside" :val="increasing_pct_PnA" :text="increasing_pct_PnA == 100 ? completedPnA : increasing_pct_PnA+ '%' "
-                :bar-color="increasing_pct_PnA == 100 ? pnaColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
+                :bar-color="increasing_pct_PnA == 100 ? pnaColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText" />
 
               <progress-bar size="large" style="width: 95%" text-position="inside" :val="increasing_pct_Vertex" :text="increasing_pct_Vertex == 100 ? completedVert : increasing_pct_Vertex+ '%' "
-                :bar-color="increasing_pct_Vertex == 100 ? vertColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText"/>
+                :bar-color="increasing_pct_Vertex == 100 ? vertColors : normalColors " :text-fg-color="increasing_pct_Vertex == 100? finishText : normalText" />
             </div>
           </b-col>
         </b-row>
@@ -159,7 +159,7 @@ export default {
           }, 2000);
           this.completedVert = "PASSED";
           this.vertColors = "#008000";
-          this.notRan = false;
+          this.notRanVert = false;
         } else if (vertexNum === false) {
           clearInterval(this.timerD)
         } else {
@@ -171,7 +171,7 @@ export default {
           }, 2000);
           this.completedVert = "FAIL";
           this.vertColors = "#FF0000";
-          this.notRan = false;
+          this.notRanVert = false;
         }
       }
 
