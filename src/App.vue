@@ -1,5 +1,5 @@
 <template>
-<div id="app" class="flex-container">
+<div id="app">
   <h1 style="text-align: center; margin-top:10px; margin-bottom: 30px">Quality of Life</h1>
   <div>
     <div>
