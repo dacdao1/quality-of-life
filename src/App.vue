@@ -18,7 +18,7 @@
                 <b-form-checkbox v-for="Automations in Automation" v-bind:key="Automations.id" :value="Automations" class="mb-5" >
 
                   {{ Automations.text}}<b-button v-b-tooltip.hover style="margin-left: 20px; border: ; background-color: white; border: .5px solid #4CAF50; border-radius: 50%" :title="Automations.explain">
-  <img src="./assets/logo1.png">
+  <img src="./assets/logo1.png"> hello
   </b-button>
 
 
