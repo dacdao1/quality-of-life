@@ -1,4 +1,4 @@
-# testapp
+# Quality of life UI
 
 ## Project setup
 ```
